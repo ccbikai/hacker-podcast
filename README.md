@@ -14,7 +14,7 @@ Subscribe: <https://hacker-podcast.agi.li/rss.xml>
 
 - 🤖 Automatically fetches top Hacker News articles daily
 - 🎯 Uses AI to intelligently summarize article content and comments
-- 🎙️ Generates audio narration using Edge TTS
+- 🎙️ Generates audio narration using TTS (Edge TTS / Minimax Audio)
 - 📱 Listen via web or podcast apps
 - 🔄 Updates daily automatically
 - 📝 Provides article summaries and full transcripts
