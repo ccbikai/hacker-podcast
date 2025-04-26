@@ -10,7 +10,23 @@ const md = markdownit()
 
 export const revalidate = 300
 
-export async function GET() {
+export async function GET(request: Request) {
+  // Create a cache key
+  const cacheUrl = new URL(request.url)
+  const cacheKey = new Request(cacheUrl.toString())
+  const cache = typeof caches !== 'undefined' ? await caches.open('rss-feed-cache') : undefined
+
+  if (cache) {
+    const response = await cache.match(cacheKey)
+
+    if (response) {
+      // If there is a cache, return the cached response
+      console.info('Returning cached RSS feed response')
+      return response
+    }
+  }
+
+  // If there is no cache, generate a new response
   const headersList = await headers()
   const host = headersList.get('host')
 
@@ -63,10 +79,20 @@ export async function GET() {
     })
   }
 
-  return new NextResponse(feed.buildXml(), {
+  const response = new NextResponse(feed.buildXml(), {
     headers: {
       'Content-Type': 'application/xml',
       'Cache-Control': `public, max-age=${revalidate}, s-maxage=${revalidate}`,
     },
   })
+
+  if (cache) {
+    const responseToCache = response.clone()
+
+    await cache.put(cacheKey, responseToCache).catch((error) => {
+      console.error('Failed to cache RSS feed:', error)
+    })
+  }
+
+  return response
 }
