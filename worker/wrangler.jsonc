@@ -1,0 +1,47 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "hacker-podcast-worker",
+  "main": "./index.ts",
+  "compatibility_date": "2025-04-12",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "minify": true,
+  "assets": {
+    "directory": "./static"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "triggers": {
+    "crons": [
+      "59 23 * * *"
+    ]
+  },
+  "browser": {
+    "binding": "BROWSER"
+  },
+  "workflows": [
+    {
+      "name": "hacker-podcast-workflow",
+      "binding": "HACKER_PODCAST_WORKFLOW",
+      "class_name": "HackerPodcastWorkflow"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "HACKER_PODCAST_KV",
+      "id": "fa04539c8d03442bb1f90b931f2cb56a"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "HACKER_PODCAST_R2",
+      "bucket_name": "hacker-podcast-r2"
+    }
+  ]
+}

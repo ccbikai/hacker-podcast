@@ -1,0 +1,55 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hacker-podcast",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-04-12",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "minify": true,
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "kv_namespaces": [
+    {
+      "binding": "HACKER_PODCAST_KV",
+      "id": "fa04539c8d03442bb1f90b931f2cb56a"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "HACKER_PODCAST_R2",
+      "bucket_name": "hacker-podcast-r2"
+    },
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "hacker-podcast-r2"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "NEXT_CACHE_DO_QUEUE",
+        "class_name": "DOQueueHandler"
+      },
+      {
+        "name": "NEXT_TAG_CACHE_DO_SHARDED",
+        "class_name": "DOShardedTagCache"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["DOQueueHandler", "DOShardedTagCache"]
+    }
+  ]
+}

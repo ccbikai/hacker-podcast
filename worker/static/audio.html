@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Audio</title>
+  </head>
+  <body>
+    <script>
+      const concatAudioFilesOnBrowser = async (audioFiles) => {
+        const script = document.createElement('script')
+        script.src = 'https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js'
+        document.head.appendChild(script)
+        await new Promise((resolve) => (script.onload = resolve))
+
+        const { createFFmpeg, fetchFile } = FFmpeg
+        const ffmpeg = createFFmpeg({ log: true })
+
+        await ffmpeg.load()
+
+        // Download and write each file to FFmpeg's virtual file system
+        for (const [index, audioFile] of audioFiles.entries()) {
+          const audioData = await fetchFile(audioFile)
+          ffmpeg.FS('writeFile', `input${index}.mp3`, audioData)
+        }
+
+        // Create a file list for ffmpeg concat
+        const fileList = audioFiles.map((_, i) => `file 'input${i}.mp3'`).join('\n')
+        ffmpeg.FS('writeFile', 'filelist.txt', fileList)
+
+        // Execute FFmpeg command to concatenate files
+        await ffmpeg.run(
+          '-f',
+          'concat',
+          '-safe',
+          '0',
+          '-i',
+          'filelist.txt',
+          '-c:a',
+          'libmp3lame',
+          '-q:a',
+          '5',
+          'output.mp3',
+        )
+
+        // Read the output file
+        const data = ffmpeg.FS('readFile', 'output.mp3')
+
+        // Create a downloadable link
+        const blob = new Blob([data.buffer], { type: 'audio/mp3' })
+
+        // Clean up
+        audioFiles.forEach((_, i) => {
+          ffmpeg.FS('unlink', `input${i}.mp3`)
+        })
+        ffmpeg.FS('unlink', 'filelist.txt')
+        ffmpeg.FS('unlink', 'output.mp3')
+
+        return blob
+      }
+
+      // async function test() {
+      // const audioFiles = Array.from(
+      //   { length: 10 },
+      //   (_, i) => `https://hacker-podcast-static.agi.li/2025/04/25/production/hacker-podcast-2025-04-25.mp3-${i}.mp3?t=${Date.now()}`,
+      // )
+      // const blob = await concatAudioFilesOnBrowser(audioFiles)
+      //   const url = URL.createObjectURL(blob)
+      //   console.log(url)
+      // }
+
+      // test()
+    </script>
+  </body>
+</html>

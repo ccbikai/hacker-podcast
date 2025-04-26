@@ -1,0 +1,79 @@
+Next.js Best Practices:
+
+Utilize Next.js App Router for improved performance and easier routing
+Implement proper error boundaries to handle and display errors gracefully
+Use server components for better performance and reduced client-side JavaScript
+Leverage Next.js built-in image optimization for faster page loads
+Implement proper data fetching patterns using getServerSideProps or getStaticProps
+Use Next.js built-in internationalization features for multi-language support
+Implement proper security measures like CSRF protection and secure headers
+
+React Best Practices:
+
+Use functional components and hooks instead of class components for better code organization
+Implement proper React.memo and useMemo for performance optimization
+Follow the React hooks rules strictly to avoid common pitfalls
+Use context API or state management libraries for global state management
+Implement proper prop-types or TypeScript interfaces for type checking
+Use React.lazy and Suspense for code-splitting and lazy loading components
+Implement proper error boundaries to catch and handle errors in components
+
+TypeScript Best Practices:
+
+Use TypeScript strict mode for better type safety and catching potential errors
+Follow proper type definitions and use interfaces or types consistently
+Implement comprehensive error handling with proper type guards
+Use generics for reusable components and functions with type flexibility
+Leverage utility types like Partial, Readonly, and Pick for better type manipulation
+Implement proper module augmentation for extending existing types
+Use enums or union types for defining a set of distinct values
+
+Zod Best Practices:
+
+Use Zod for runtime type checking and validation of user inputs
+Implement proper error handling and user-friendly error messages
+Use Zod's built-in transformations for data normalization and sanitization
+Leverage Zod's integration with TypeScript for better type inference
+Use Zod's schema composition features for creating complex validation rules
+Implement proper caching of Zod schemas for performance optimization
+Use Zod's custom error messages for more informative validation feedback
+
+Tailwind CSS Best Practices:
+
+Use utility-first approach for consistent and maintainable styles
+Implement proper responsive design using Tailwind's responsive modifiers
+Use Tailwind's custom configuration for project-specific design tokens
+Leverage Tailwind's JIT mode for faster build times and smaller CSS output
+Implement proper accessibility practices using Tailwind's accessibility utilities
+Use Tailwind's plugin system for extending functionality and creating reusable components
+Implement proper performance optimization by purging unused styles
+
+Radix UI Best Practices:
+
+Use Radix UI components for accessible and customizable UI elements
+Implement proper accessibility practices using Radix UI's built-in features
+Leverage Radix UI's composition model for creating custom components
+Use Radix UI's styling API for consistent and themeable styles
+Implement proper state management using Radix UI's built-in hooks
+Use Radix UI's TypeScript types for better type safety and autocompletion
+Implement proper performance optimization by using Radix UI's lightweight components
+
+Cheerio Best Practices:
+
+Use Cheerio for server-side HTML parsing and manipulation
+Implement proper error handling for parsing and querying operations
+Use Cheerio's chaining API for concise and readable code
+Leverage Cheerio's integration with Node.js streams for processing large documents
+Implement proper security measures to prevent XSS attacks when using user-generated content
+Use Cheerio's built-in methods for efficient DOM traversal and manipulation
+Implement proper performance optimization by using Cheerio's lightweight implementation
+
+Lucide React Best Practices:
+
+Use Lucide React icons for consistent and customizable iconography
+Implement proper accessibility practices using Lucide's built-in aria attributes
+Leverage Lucide's TypeScript types for better type safety and autocompletion
+Use Lucide's customization options for consistent theming across your application
+Implement proper performance optimization by using Lucide's lightweight SVG icons
+Use Lucide's built-in props for easy icon manipulation and styling
+Implement proper icon management by using Lucide's icon sets and categories
