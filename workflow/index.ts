@@ -181,13 +181,13 @@ export class HackerPodcastWorkflow extends WorkflowEntrypoint<Env, Params> {
     console.info('save podcast to r2 success')
 
     await step.do('delete temp files', retryConfig, async () => {
-      try {
-        for (const index of audioFiles.keys()) {
+      for (const index of audioFiles.keys()) {
+        try {
           await this.env.HACKER_PODCAST_R2.delete(`${podcastKey}-${index}.mp3`)
         }
-      }
-      catch (error) {
-        console.error('delete temp files failed', error)
+        catch (error) {
+          console.error('delete temp files failed', error)
+        }
       }
       return 'delete temp files success'
     })
