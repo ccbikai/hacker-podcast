@@ -106,7 +106,7 @@ export class HackerPodcastWorkflow extends WorkflowEntrypoint<Env, Params> {
 
     const blogContent = await step.do('create blog content', retryConfig, async () => {
       const { text, usage, finishReason } = await generateText({
-        model: openai(this.env.OPENAI_MODEL!),
+        model: openai(this.env.OPENAI_THINKING_MODEL || this.env.OPENAI_MODEL!),
         system: summarizeBlogPrompt,
         prompt: allStories.join('\n\n---\n\n'),
         maxTokens,
@@ -183,7 +183,10 @@ export class HackerPodcastWorkflow extends WorkflowEntrypoint<Env, Params> {
     await step.do('delete temp files', retryConfig, async () => {
       for (const index of audioFiles.keys()) {
         try {
-          await this.env.HACKER_PODCAST_R2.delete(`${podcastKey}-${index}.mp3`)
+          await Promise.any([
+            this.env.HACKER_PODCAST_R2.delete(`${podcastKey}-${index}.mp3`),
+            new Promise(resolve => setTimeout(resolve, 200)),
+          ])
         }
         catch (error) {
           console.error('delete temp files failed', error)
