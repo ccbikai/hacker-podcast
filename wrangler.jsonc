@@ -27,11 +27,11 @@
   "r2_buckets": [
     {
       "binding": "HACKER_PODCAST_R2",
-      "bucket_name": "hacker-podcast-r2"
+      "bucket_name": "hacker-podcast"
     },
     {
       "binding": "NEXT_INC_CACHE_R2_BUCKET",
-      "bucket_name": "hacker-podcast-r2"
+      "bucket_name": "hacker-podcast"
     }
   ],
   "durable_objects": {

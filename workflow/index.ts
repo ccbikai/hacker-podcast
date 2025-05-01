@@ -158,9 +158,9 @@ export class HackerPodcastWorkflow extends WorkflowEntrypoint<Env, Params> {
           throw new Error('podcast audio size is 0')
         }
 
-        await this.env.HACKER_PODCAST_R2.put(`${podcastKey}-${index}.mp3`, audio)
+        await this.env.HACKER_PODCAST_R2.put(`tmp/${podcastKey}-${index}.mp3`, audio)
 
-        const audioFile = `${this.env.HACKER_PODCAST_R2_BUCKET_URL}/${podcastKey}-${index}.mp3?t=${Date.now()}`
+        const audioFile = `${this.env.HACKER_PODCAST_R2_BUCKET_URL}/tmp/${podcastKey}-${index}.mp3?t=${Date.now()}`
         audioFiles.push(audioFile)
         return audioFile
       })
@@ -184,7 +184,7 @@ export class HackerPodcastWorkflow extends WorkflowEntrypoint<Env, Params> {
       for (const index of audioFiles.keys()) {
         try {
           await Promise.any([
-            this.env.HACKER_PODCAST_R2.delete(`${podcastKey}-${index}.mp3`),
+            this.env.HACKER_PODCAST_R2.delete(`tmp/${podcastKey}-${index}.mp3`),
             new Promise(resolve => setTimeout(resolve, 200)),
           ])
         }

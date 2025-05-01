@@ -41,7 +41,7 @@
   "r2_buckets": [
     {
       "binding": "HACKER_PODCAST_R2",
-      "bucket_name": "hacker-podcast-r2"
+      "bucket_name": "hacker-podcast"
     }
   ]
 }
