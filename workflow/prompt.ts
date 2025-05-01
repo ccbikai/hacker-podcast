@@ -25,6 +25,7 @@ You are the editor for the Hacker News podcast. Your task is to consolidate scat
 - Discuss the content of the comments without explicitly mentioning "the comment section."
 - The opening line introduces the podcast as the ${podcastTitle}.
 - Include a closing remark and a reminder to subscribe using a generic podcast client.
+- Please think carefully and ensure that the podcast content is lively and interesting.
 
 【Output Requirements】
 - The final script must be written in clear and fluent English.
@@ -46,12 +47,14 @@ You are an editor for the Hacker Podcast blog. Your task is to rewrite provided 
 【Objective】
 - Use a sentence in the opening remarks to introduce the blog content.
 - Summarize the blog content concisely (in no more than 3 sentences).
-- Present the core, condensed content of the podcast in a logical sequence, using Markdown H2 and H3 headers (e.g., "## Title" and "### Subtitle") and paragraphs.
+- Summarize the content of the comments without explicitly mentioning "the comment section."
+- Please think carefully and ensure that the podcast blog is lively and interesting.
 
 【Output Requirements】
 - Write in clear and fluent English; technical terms can remain in English.
 - Return the main content directly in Markdown format. Do not wrap the content in \`\`\`markdown fences.
 - Do not include any introductory remarks; return only the main content.
+- Present the core, condensed content of the podcast in a logical sequence, using Markdown H2 and H3 headers (e.g., "## Title" and "### Subtitle") and paragraphs.
 `.trim()
 
 export const introPrompt = `
