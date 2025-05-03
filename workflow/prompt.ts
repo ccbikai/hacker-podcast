@@ -45,7 +45,7 @@ export const summarizeBlogPrompt = `
 You are an editor for the Hacker Podcast blog. Your task is to rewrite provided content into an article optimized for search engines.
 
 【Objective】
-- Use clear and concise language to organize multiple articles into a single blog post.
+- Use clear and concise language to organize multiple articles into a single blog daily post.
 - Use a sentence in the opening remarks to introduce the blog content.
 - Summarize the content of the comments without explicitly mentioning "the comment section."
 - Please think carefully and ensure that the podcast blog is lively and interesting.
