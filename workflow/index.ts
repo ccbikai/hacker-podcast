@@ -52,12 +52,14 @@ export class HackerPodcastWorkflow extends WorkflowEntrypoint<Env, Params> {
     const maxTokens = Number.parseInt(this.env.OPENAI_MAX_TOKENS || '4096')
 
     const stories = await step.do(`get top stories ${today}`, retryConfig, async () => {
-      return await getHackerNewsTopStories(today, this.env.JINA_KEY)
-    })
+      const topStories = await getHackerNewsTopStories(today, this.env.JINA_KEY)
 
-    if (!stories.length) {
-      throw new Error('no stories found')
-    }
+      if (!topStories.length) {
+        throw new Error('no stories found')
+      }
+
+      return topStories
+    })
 
     stories.length = Math.min(stories.length, isDev ? 3 : 10)
     console.info('top stories', isDev ? stories : JSON.stringify(stories))
