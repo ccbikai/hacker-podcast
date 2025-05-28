@@ -18,6 +18,7 @@
   "observability": {
     "enabled": true
   },
+  "keep_vars": true,
   "kv_namespaces": [
     {
       "binding": "HACKER_PODCAST_KV",

@@ -4,10 +4,12 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { Suspense } from 'react'
 import Markdown from 'react-markdown'
 
-const AudioPlayer = dynamic(() => import('player.style/tailwind-audio/react'), { ssr: false })
+const AudioPlayer = dynamic(() => import('player.style/tailwind-audio/react'), {
+  ssr: false,
+  loading: () => <Skeleton className="w-full h-24" />,
+})
 
 interface ArticleCardProps {
   article: Article
@@ -31,22 +33,20 @@ export function ArticleCard({ article, staticHost = '', showSummary = false, sho
         </CardTitle>
       </CardHeader>
       <CardContent className="h-32">
-        <Suspense fallback={<Skeleton className="w-full h-28" />}>
-          <AudioPlayer
-            className="w-full"
-            style={{ '--media-primary-color': '#18181b', '--media-secondary-color': '#f2f2f3', '--media-accent-color': '#18181b' } as React.CSSProperties}
+        <AudioPlayer
+          className="w-full"
+          style={{ '--media-primary-color': '#18181b', '--media-secondary-color': '#f2f2f3', '--media-accent-color': '#18181b' } as React.CSSProperties}
+        >
+          <audio
+            slot="media"
+            src={audio}
+            preload="metadata"
+            playsInline
+            crossOrigin="anonymous"
+            tabIndex={article.updatedAt || -1}
           >
-            <audio
-              slot="media"
-              src={audio}
-              preload="metadata"
-              playsInline
-              crossOrigin="anonymous"
-              tabIndex={article.updatedAt || -1}
-            >
-            </audio>
-          </AudioPlayer>
-        </Suspense>
+          </audio>
+        </AudioPlayer>
       </CardContent>
       {showFooter && (
         <CardFooter className="flex-col">
@@ -56,7 +56,7 @@ export function ArticleCard({ article, staticHost = '', showSummary = false, sho
               <TabsTrigger value="podcast" className="font-bold">Podcast</TabsTrigger>
               <TabsTrigger value="references" className="font-bold">References</TabsTrigger>
             </TabsList>
-            <TabsContent value="summary" className="prose prose-zinc max-w-none py-4">
+            <TabsContent value="summary" className="prose prose-zinc max-w-none py-4 prose-a:no-underline hover:prose-a:underline">
               <Markdown>{article.blogContent}</Markdown>
             </TabsContent>
             <TabsContent value="podcast" className="prose prose-zinc max-w-none whitespace-pre-line py-4">

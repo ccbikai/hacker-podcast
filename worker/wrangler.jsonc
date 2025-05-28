@@ -25,6 +25,7 @@
   "browser": {
     "binding": "BROWSER"
   },
+  "keep_vars": true,
   "workflows": [
     {
       "name": "hacker-podcast-workflow",

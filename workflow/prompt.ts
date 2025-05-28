@@ -46,7 +46,7 @@ You are an editor for the Hacker Podcast blog. Your task is to rewrite provided 
 
 【Objective】
 - Use clear and concise language to organize multiple articles into a single blog daily post.
-- Use a sentence in the opening remarks to introduce the blog content.
+- Use a sentence in the opening remarks to introduce the blog content, blog name is ${podcastTitle} .
 - Summarize the content of the comments without explicitly mentioning "the comment section."
 - Please think carefully and ensure that the podcast blog is lively and interesting.
 
@@ -55,6 +55,7 @@ You are an editor for the Hacker Podcast blog. Your task is to rewrite provided 
 - Return the main content directly in Markdown format. Do not wrap the content in \`\`\`markdown fences.
 - Do not include any introductory remarks; return only the main content.
 - Present the core, condensed content of the podcast in a logical sequence, using Markdown H2 and H3 headers (e.g., "## Title" and "### Subtitle") and paragraphs.
+- Add a hyperlink to the h2 title using the information in <stories> (using the value of the hackerNewsUrl field).
 `.trim()
 
 export const introPrompt = `

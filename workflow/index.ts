@@ -52,7 +52,7 @@ export class HackerPodcastWorkflow extends WorkflowEntrypoint<Env, Params> {
     const maxTokens = Number.parseInt(this.env.OPENAI_MAX_TOKENS || '4096')
 
     const stories = await step.do(`get top stories ${today}`, retryConfig, async () => {
-      const topStories = await getHackerNewsTopStories(today, this.env.JINA_KEY)
+      const topStories = await getHackerNewsTopStories(today, this.env)
 
       if (!topStories.length) {
         throw new Error('no stories found')
@@ -67,7 +67,7 @@ export class HackerPodcastWorkflow extends WorkflowEntrypoint<Env, Params> {
     const allStories: string[] = []
     for (const story of stories) {
       const storyResponse = await step.do(`get story ${story.id}: ${story.title}`, retryConfig, async () => {
-        return await getHackerNewsStory(story, maxTokens, this.env.JINA_KEY)
+        return await getHackerNewsStory(story, maxTokens, this.env)
       })
 
       console.info(`get story ${story.id} content success`)
@@ -110,7 +110,7 @@ export class HackerPodcastWorkflow extends WorkflowEntrypoint<Env, Params> {
       const { text, usage, finishReason } = await generateText({
         model: openai(this.env.OPENAI_THINKING_MODEL || this.env.OPENAI_MODEL!),
         system: summarizeBlogPrompt,
-        prompt: allStories.join('\n\n---\n\n'),
+        prompt: `<stories>${JSON.stringify(stories)}</stories>\n\n---\n\n${allStories.join('\n\n---\n\n')}`,
         maxTokens,
         maxRetries: 3,
       })
