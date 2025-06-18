@@ -3,7 +3,7 @@ import { ArticleCard } from '@/components/article-card'
 import { keepDays } from '@/config'
 import { getPastDays } from '@/lib/utils'
 
-export const revalidate = 300
+export const revalidate = 600
 
 export default async function Home() {
   const { env } = await getCloudflareContext({ async: true })

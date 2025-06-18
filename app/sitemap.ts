@@ -1,13 +1,12 @@
 import type { MetadataRoute } from 'next'
+import process from 'node:process'
 import { keepDays } from '@/config'
 import { getPastDays } from '@/lib/utils'
-import { headers } from 'next/headers'
 
 export const revalidate = 86400
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const headersList = await headers()
-  const host = headersList.get('host') || ''
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? ''
   const posts = getPastDays(keepDays).map((day) => {
     return {
       date: day,
@@ -16,13 +15,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: `https://${host}`,
+      url: baseUrl,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 1,
     },
     ...posts.map(post => ({
-      url: `https://${host}/post/${post.date}`,
+      url: `${baseUrl}/post/${post.date}`,
       lastModified: new Date(post.date),
       changeFrequency: 'weekly' as const,
       priority: 0.8,

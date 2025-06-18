@@ -99,7 +99,8 @@ pnpx wrangler secret put --cwd worker OPENAI_BASE_URL # Optional
 pnpx wrangler secret put --cwd worker OPENAI_MODEL # Optional
 
 # Set secrets for the Web application (Next.js on Cloudflare Pages/Workers)
-pnpx wrangler secret put NEXTJS_ENV
+pnpx wrangler secret put NEXTJS_ENV # Next.JS environment, recommended production
+pnpx wrangler secret put NEXT_PUBLIC_BASE_URL # Web App URL
 # Ensure NEXT_STATIC_HOST is set in the Pages deployment settings or via wrangler secret put if deploying manually
 pnpx wrangler secret put NEXT_STATIC_HOST # Use your R2 public bucket URL (same as HACKER_PODCAST_R2_BUCKET_URL)
 ```

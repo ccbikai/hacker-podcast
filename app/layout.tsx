@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
-import { podcastDescription, podcastTitle } from '@/config'
+import process from 'node:process'
 import { Coffee, Github, Rss } from 'lucide-react'
 import Link from 'next/link'
+import { podcastDescription, podcastTitle } from '@/config'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: process.env.NEXT_PUBLIC_BASE_URL ? new URL(process.env.NEXT_PUBLIC_BASE_URL) : undefined,
   title: podcastTitle,
   description: podcastDescription,
   alternates: {

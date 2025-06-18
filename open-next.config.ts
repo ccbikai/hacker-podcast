@@ -6,23 +6,9 @@ import doQueue from '@opennextjs/cloudflare/overrides/queue/do-queue'
 import doShardedTagCache from '@opennextjs/cloudflare/overrides/tag-cache/do-sharded-tag-cache'
 
 export default defineCloudflareConfig({
-  // Disable this if you want to use PPR
   enableCacheInterception: true,
   queue: doQueue,
-  incrementalCache: withRegionalCache(r2IncrementalCache, { mode: 'long-lived', shouldLazilyUpdateOnCacheHit: true }),
-  // This is only required if you use On-demand revalidation
-  tagCache: doShardedTagCache({
-    baseShardSize: 12,
-    regionalCache: true, // Enable regional cache to reduce the load on the DOs
-    regionalCacheTtlSec: 5, // The TTL for the regional cache
-    shardReplication: {
-      numberOfSoftReplicas: 4,
-      numberOfHardReplicas: 2,
-      regionalReplication: {
-        defaultRegion: 'enam',
-      },
-    },
-  }),
-  // you can also use the `durableObject` option to use a durable object as a cache purge
+  incrementalCache: withRegionalCache(r2IncrementalCache, { mode: 'long-lived' }),
+  tagCache: doShardedTagCache(),
   cachePurge: purgeCache({ type: 'durableObject' }),
 })

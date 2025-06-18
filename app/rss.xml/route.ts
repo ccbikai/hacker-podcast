@@ -1,6 +1,6 @@
+import process from 'node:process'
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import markdownit from 'markdown-it'
-import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { Podcast } from 'podcast'
 import { podcastDescription, podcastTitle } from '@/config'
@@ -10,39 +10,22 @@ const md = markdownit()
 
 export const revalidate = 3600
 
-export async function GET(request: Request) {
-  // Create a cache key
-  const cacheUrl = new URL(request.url)
-  const cacheKey = new Request(cacheUrl.toString())
-  const cache = typeof caches !== 'undefined' ? await caches.open('rss-feed-cache') : undefined
-
-  if (cache) {
-    const response = await cache.match(cacheKey)
-
-    if (response) {
-      // If there is a cache, return the cached response
-      console.info('Returning cached RSS feed response')
-      return response
-    }
-  }
-
-  // If there is no cache, generate a new response
-  const headersList = await headers()
-  const host = headersList.get('host')
+export async function GET() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? ''
 
   const feed = new Podcast({
     title: podcastTitle,
     description: podcastDescription,
-    feedUrl: `https://${host}/rss.xml`,
-    siteUrl: `https://${host}`,
-    imageUrl: `https://${host}/logo.jpg`,
+    feedUrl: `${baseUrl}/rss.xml`,
+    siteUrl: baseUrl,
+    imageUrl: `${baseUrl}/logo.jpg`,
     language: 'zh-CN',
     pubDate: new Date(),
     ttl: 60,
     generator: podcastTitle,
     author: podcastTitle,
     categories: ['technology', 'news'],
-    itunesImage: `https://${host}/logo.jpg`,
+    itunesImage: `${baseUrl}/logo.jpg`,
     itunesCategory: [{ text: 'Technology' }, { text: 'News' }],
   })
 
@@ -68,8 +51,8 @@ export async function GET(request: Request) {
       title: post.title || '',
       description: post.introContent || post.podcastContent || '',
       content: finalContent,
-      url: `https://${host}/post/${post.date}`,
-      guid: `https://${host}/post/${post.date}`,
+      url: `${baseUrl}/post/${post.date}`,
+      guid: `${baseUrl}/post/${post.date}`,
       date: new Date(post.updatedAt || post.date),
       enclosure: {
         url: `${env.NEXT_STATIC_HOST}/${post.audio}?t=${post.updatedAt}`,
@@ -85,14 +68,6 @@ export async function GET(request: Request) {
       'Cache-Control': `public, max-age=${revalidate}, s-maxage=${revalidate}`,
     },
   })
-
-  if (cache) {
-    const responseToCache = response.clone()
-
-    await cache.put(cacheKey, responseToCache).catch((error) => {
-      console.error('Failed to cache RSS feed:', error)
-    })
-  }
 
   return response
 }
