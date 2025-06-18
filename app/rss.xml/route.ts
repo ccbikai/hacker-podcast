@@ -1,14 +1,14 @@
-import { podcastDescription, podcastTitle } from '@/config'
-import { getPastDays } from '@/lib/utils'
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import markdownit from 'markdown-it'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { Podcast } from 'podcast'
+import { podcastDescription, podcastTitle } from '@/config'
+import { getPastDays } from '@/lib/utils'
 
 const md = markdownit()
 
-export const revalidate = 300
+export const revalidate = 3600
 
 export async function GET(request: Request) {
   // Create a cache key
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
     itunesCategory: [{ text: 'Technology' }, { text: 'News' }],
   })
 
-  const { env } = getCloudflareContext()
+  const { env } = await getCloudflareContext({ async: true })
   const runEnv = env.NEXTJS_ENV
   const pastDays = getPastDays(10)
   const posts = (await Promise.all(

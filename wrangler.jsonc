@@ -35,6 +35,12 @@
       "bucket_name": "hacker-podcast"
     }
   ],
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "hacker-podcast"
+    }
+  ],
   "durable_objects": {
     "bindings": [
       {
@@ -44,6 +50,10 @@
       {
         "name": "NEXT_TAG_CACHE_DO_SHARDED",
         "class_name": "DOShardedTagCache"
+      },
+      {
+        "name": "NEXT_CACHE_DO_PURGE",
+        "class_name": "BucketCachePurge"
       }
     ]
   },
@@ -51,6 +61,10 @@
     {
       "tag": "v1",
       "new_sqlite_classes": ["DOQueueHandler", "DOShardedTagCache"]
+    },
+    {
+      "tag": "v2",
+      "new_sqlite_classes": ["BucketCachePurge"]
     }
   ]
 }

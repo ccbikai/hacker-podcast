@@ -1,13 +1,12 @@
+import { getCloudflareContext } from '@opennextjs/cloudflare'
 import { ArticleCard } from '@/components/article-card'
 import { keepDays } from '@/config'
 import { getPastDays } from '@/lib/utils'
-import { getCloudflareContext } from '@opennextjs/cloudflare'
 
-export const dynamic = 'force-dynamic'
 export const revalidate = 300
 
 export default async function Home() {
-  const { env } = getCloudflareContext()
+  const { env } = await getCloudflareContext({ async: true })
   const runEnv = env.NEXTJS_ENV
   const pastDays = getPastDays(keepDays)
   const posts = (await Promise.all(

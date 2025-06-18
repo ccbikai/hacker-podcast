@@ -1,14 +1,13 @@
 import type { Metadata } from 'next'
-import { ArticleCard } from '@/components/article-card'
-import { podcastTitle } from '@/config'
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 import { notFound } from 'next/navigation'
+import { ArticleCard } from '@/components/article-card'
+import { podcastTitle } from '@/config'
 
-export const dynamicParams = true
-export const revalidate = 300
+export const revalidate = 3600
 
 export async function generateMetadata({ params }: { params: Promise<{ date: string }> }): Promise<Metadata> {
-  const { env } = getCloudflareContext()
+  const { env } = await getCloudflareContext({ async: true })
   const runEnv = env.NEXTJS_ENV
   const date = (await params).date
 
@@ -42,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ date: str
 }
 
 export default async function PostPage({ params }: { params: Promise<{ date: string }> }) {
-  const { env } = getCloudflareContext()
+  const { env } = await getCloudflareContext({ async: true })
   const runEnv = env.NEXTJS_ENV
 
   const date = (await params).date
