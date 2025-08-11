@@ -3,7 +3,7 @@ import antfu from '@antfu/eslint-config'
 export default antfu({
   formatters: true,
   react: true,
-  extends: ['next/core-web-vitals', 'next/typescript'],
+  nextjs: true,
   ignores: [
     'components/ui/**/*',
     'components/magicui/**/*',
